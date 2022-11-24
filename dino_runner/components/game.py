@@ -40,6 +40,8 @@ class Game:
         # Game loop: events - update - draw
         self.playing = True
         self.obstacle_manager.reset_obstacles()
+        self.game_speed = 20
+        self.score = 0
         while self.playing:
             self.events()
             self.update()
@@ -60,7 +62,7 @@ class Game:
     def update_score(self):
         if self.playing is True:
             self.score += 1
-            
+
         if self.score % 100 == 0:
             self.game_speed += 5
 
@@ -96,8 +98,6 @@ class Game:
                 self.playing = False
                 self.running = False
             elif event.type == pygame.KEYDOWN: # não confuda: K_DOWN
-                self.game_speed = 20
-                self.score = 0
                 self.run()
 
     def show_menu(self):
