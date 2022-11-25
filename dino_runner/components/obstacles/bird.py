@@ -6,6 +6,7 @@ from dino_runner.utils.constants import BIRD
 
 class Bird(Obstacle):
     def __init__(self):
+        self.name = 'bird'
         self.BIRD = BIRD
         super().__init__(self.BIRD, 0)
         self.step_index = 0

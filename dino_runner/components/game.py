@@ -20,6 +20,7 @@ class Game:
         self.running = False
         self.score = 0
         self.death_count = 0
+        self.lives = 0
         self.game_speed = 20
         self.x_pos_bg = 0
         self.y_pos_bg = 380
@@ -39,10 +40,11 @@ class Game:
     def run(self):
         # Game loop: events - update - draw
         self.playing = True
-        self.obstacle_manager.reset_obstacles()
-        self.power_up_manager.reset_power_ups()
         self.game_speed = 20
         self.score = 0
+        self.lives = 0
+        self.obstacle_manager.reset_obstacles()
+        self.power_up_manager.reset_power_ups()
         while self.playing:
             self.events()
             self.update()
@@ -59,7 +61,7 @@ class Game:
         self.player.update(user_input)
         self.obstacle_manager.update(self)
         self.update_score()
-        self.power_up_manager.update(self.score, self.game_speed, self.player)
+        self.power_up_manager.update(self)
         
     def update_score(self):
         if self.playing is True:
@@ -72,11 +74,11 @@ class Game:
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
-        self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.draw_score()
         self.draw_power_up_time()
         self.power_up_manager.draw(self.screen)
+        self.player.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
 
@@ -100,6 +102,7 @@ class Game:
 
     def draw_score(self):
         textBlit(self.screen, f"Score: {self.score}", 1000, 50, rectAlign='center')
+        textBlit(self.screen, f"Lives: {self.lives}", 1000, 75, rectAlign='center')
 
     def handle_events_menu(self):
         for event in pygame.event.get():
